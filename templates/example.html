@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'app/style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{% url 'app:create'%}" method="POST">
+        {% csrf_token %}
+        <label>
+            Title:
+            <input type="text" name="title">
+            <button>Don't Forget</button>
+        </label>
+    </form>
+
+    <a href="{% url 'app:todos' %}?filter=ALL"> <button>ALL</button></a>
+    <a href="{% url 'app:todos' %}?filter=ACTIVE"> <button>ACTIVE</button></a>
+    <a href="{% url 'app:todos' %}?filter=COMPLETED"> <button>COMPLETED</button></a>
+
+    <ul>
+        {% for todo in todos %}
+        <li>
+        {% if todo.editing %}
+            <form action="{% url 'app:new-title' todo.id %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="title">
+                <button>Update</button>
+        {% else %}
+           <p> {{todo.title}} </p>
+        {% endif %}
+
+        <form action="{% url 'app:delete' todo.id %}" method="POST">
+            {% csrf_token %}
+            <button>Delete</button>
+        </form>
+        
+        <form action="{% url 'app:toggle_completed' todo.id %}" method="POST">
+            {% csrf_token %}
+            {% if todo.completed %}
+            <button>Completed</button>
+            {% else %}
+            <button>Incompleted</button>
+            {% endif %}
+        </form>
+
+        <form action="{% url 'app:toggle_editing' todo.id%}" method="POST">
+            {% csrf_token %}
+            <button>Edit</button>
+        </form>
+        </li>
+        {% endfor %}
+    </ul>
+    
+</body>
+</html>

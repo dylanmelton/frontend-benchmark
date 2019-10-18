@@ -5,8 +5,8 @@ developer with HTML/CSS/JS inside a small Django project.
 
 The project is a simple guestbook application where a user can do 4 things:
 
-- View the latest entries
-- View the top (most liked) entries
+- View the latest entries 
+- View the top (most liked) entries 
 - Create a new entry
 - Like an entry
 
